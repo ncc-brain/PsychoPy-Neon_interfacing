@@ -161,5 +161,6 @@ cython_debug/
 
 # Everything in the `official demos` folder except gaze_contingent*
 official_demos/*
-!official demos\gaze_contingent_demo.psyexp
-!official demos\README.rst
+!official demos/gaze_contingent_demo.psyexp
+!official demos/README.rst
+!official demos/
