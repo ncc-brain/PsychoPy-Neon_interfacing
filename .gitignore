@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 # Everything in the `official demos` folder except gaze_contingent*
-official_demos/*
-!official demos/gaze_contingent_demo.psyexp
-!official demos/README.rst
-!official demos/
+official_demos/psychopy-gaze-contingent-demo/*
+!official demos/psychopy-gaze-contingent-demo/gaze_contingent_demo.psyexp
+!official demos/psychopy-gaze-contingent-demo/README.rst
+!official demos/psychopy-gaze-contingent-demo/
