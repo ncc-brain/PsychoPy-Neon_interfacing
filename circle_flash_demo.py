@@ -30,6 +30,9 @@ event.waitKeys(keyList=["space"])
 win.flip()
 device.recording_start()
 core.wait(5)
+
+# KEY CODE TO ESTIMATE NEON CLOCK OFFSET
+# RECOMMEND TO PERFORRM THIS DURING INTER-TRIAL INTERVALS
 estimate = device.estimate_time_offset()
 clock_offset_ns = round(estimate.time_offset_ms.mean * 1_000_000)
 print(f"Clock offset: {clock_offset_ns/1e6} ms")
@@ -37,6 +40,8 @@ print(f"Clock offset: {clock_offset_ns/1e6} ms")
 for i in range(N):
     circle.draw()
     win.flip()
+    
+    # KEY CODE TO SEND EVENT TO NEON
     device.send_event(
         "Circle onset",
         event_timestamp_unix_ns=int(time.time_ns() - clock_offset_ns)
