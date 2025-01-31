@@ -4,7 +4,7 @@ Only setup required is to have Neon connected to the companion device and
 the correct address and port specified below.
 Start and stop of recording as well as sending events are fully automated.
 """
-address = "192.168.144.57"
+address = "172.20.10.6"
 port = "8080"
 
 from psychopy import core, visual, event
