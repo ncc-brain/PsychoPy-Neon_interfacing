@@ -4,8 +4,8 @@ Only setup required is to have Neon connected to the companion device and
 the correct address and port specified below.
 Start and stop of recording as well as sending events are fully automated.
 """
-address = "172.20.10.6"
-port = "8080"
+NEON_ADDRESS = "172.20.10.6"
+NEON_PORT = "8080"
 
 from psychopy import core, visual, event
 import sys
@@ -13,7 +13,7 @@ import time
 from pupil_labs.realtime_api.simple import Device
 
 try:
-    device = Device(address=address, port=port)
+    device = Device(address=NEON_ADDRESS, port=NEON_PORT)
 except:
     print("Could not connect to Neon.")
     sys.exit()
@@ -27,15 +27,16 @@ text = visual.TextStim(win, text="Press space to start", height=.05)
 text.draw()
 win.flip()
 event.waitKeys(keyList=["space"]) 
+text.setText("Starting...")
 win.flip()
 device.recording_start()
-core.wait(5)
+core.wait(3)
 
 # KEY CODE TO ESTIMATE NEON CLOCK OFFSET
 # RECOMMEND TO PERFORRM THIS DURING INTER-TRIAL INTERVALS
 estimate = device.estimate_time_offset()
-clock_offset_ns = round(estimate.time_offset_ms.mean * 1_000_000)
-print(f"Clock offset: {clock_offset_ns/1e6} ms")
+clock_offset_ns = round(estimate.time_offset_ms.median * 1_000_000)
+print(f"Clock median offset: {clock_offset_ns/1e6} ms")
 
 for i in range(N):
     circle.draw()
