@@ -15,17 +15,18 @@ from .dwell_detector import DwellDetector
 
 pyautogui.FAILSAFE = False
 
+
 class PupilPointerApp(QApplication):
     def __init__(self):
         super().__init__()
 
-        self.setApplicationDisplayName('Pupil Pointer')
+        self.setApplicationDisplayName("Pupil Pointer")
         self.mouseEnabled = False
 
         self.tagWindow = TagWindow()
 
         self.device = None
-        self.dwellDetector = DwellDetector(.75, 75)
+        self.dwellDetector = DwellDetector(0.75, 75)
         self.smoothing = 0.8
 
         self.tagWindow.surfaceChanged.connect(self.onSurfaceChanged)
@@ -35,9 +36,8 @@ class PupilPointerApp(QApplication):
         self.tagWindow.mouseEnableChanged.connect(self.setMouseEnabled)
         self.tagWindow.smoothingChanged.connect(self.setSmoothing)
 
-
         self.pollTimer = QTimer()
-        self.pollTimer.setInterval(1000/30)
+        self.pollTimer.setInterval(1000 / 30)
         self.pollTimer.timeout.connect(self.poll)
 
         self.surface = None
@@ -59,7 +59,7 @@ class PupilPointerApp(QApplication):
         calibration = self.device.get_calibration()
         self.gazeMapper = GazeMapper(calibration)
 
-        self.tagWindow.setStatus(f'Connected to {self.device}. One moment...')
+        self.tagWindow.setStatus(f"Connected to {self.device}. One moment...")
 
         self.updateSurface()
         self.pollTimer.start()
@@ -71,8 +71,7 @@ class PupilPointerApp(QApplication):
 
         self.gazeMapper.clear_surfaces()
         self.surface = self.gazeMapper.add_surface(
-            self.tagWindow.getMarkerVerts(),
-            self.tagWindow.getSurfaceSize()
+            self.tagWindow.getMarkerVerts(), self.tagWindow.getSurfaceSize()
         )
 
     def setMouseEnabled(self, enabled):
@@ -82,19 +81,21 @@ class PupilPointerApp(QApplication):
         self.smoothing = value
 
     def poll(self):
-        frameAndGaze = self.device.receive_matched_scene_video_frame_and_gaze(timeout_seconds=1/15)
+        frameAndGaze = self.device.receive_matched_scene_video_frame_and_gaze(
+            timeout_seconds=1 / 15
+        )
 
         if frameAndGaze is None:
             return
 
         else:
-            self.tagWindow.setStatus(f'Streaming data from {self.device}')
+            self.tagWindow.setStatus(f"Streaming data from {self.device}")
             self.firstPoll = False
 
         frame, gaze = frameAndGaze
         result = self.gazeMapper.process_frame(frame, gaze)
 
-        markerIds = [int(marker.uid.split(':')[-1]) for marker in result.markers]
+        markerIds = [int(marker.uid.split(":")[-1]) for marker in result.markers]
         self.tagWindow.showMarkerFeedback(markerIds)
 
         if self.surface.uid in result.mapped_gaze:
@@ -103,12 +104,18 @@ class PupilPointerApp(QApplication):
                     self.mousePosition = [surface_gaze.x, surface_gaze.y]
 
                 else:
-                    self.mousePosition[0] = self.mousePosition[0] * self.smoothing + surface_gaze.x * (1.0 - self.smoothing)
-                    self.mousePosition[1] = self.mousePosition[1] * self.smoothing + surface_gaze.y * (1.0 - self.smoothing)
+                    self.mousePosition[0] = self.mousePosition[
+                        0
+                    ] * self.smoothing + surface_gaze.x * (1.0 - self.smoothing)
+                    self.mousePosition[1] = self.mousePosition[
+                        1
+                    ] * self.smoothing + surface_gaze.y * (1.0 - self.smoothing)
 
                 mousePoint = self.tagWindow.updatePoint(*self.mousePosition)
 
-                changed, dwell, dwellPosition = self.dwellDetector.addPoint(mousePoint.x(), mousePoint.y(), gaze.timestamp_unix_seconds)
+                changed, dwell, dwellPosition = self.dwellDetector.addPoint(
+                    mousePoint.x(), mousePoint.y(), gaze.timestamp_unix_seconds
+                )
                 if changed and dwell:
                     self.tagWindow.setClicked(True)
                     if self.mouseEnabled:
@@ -120,12 +127,13 @@ class PupilPointerApp(QApplication):
                     QCursor().setPos(mousePoint)
 
     def exec(self):
-        self.tagWindow.setStatus('Looking for a device...')
+        self.tagWindow.setStatus("Looking for a device...")
         self.tagWindow.showMaximized()
         QTimer.singleShot(1000, self.start)
         super().exec()
         if self.device is not None:
             self.device.close()
+
 
 def run():
     app = PupilPointerApp()
