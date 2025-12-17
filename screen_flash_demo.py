@@ -53,9 +53,9 @@ for i in range(N):
     square.draw()
     win.callOnFlip(send_event, device, clock_offset_ns)
     win.flip()
-    core.wait(0.5)
+    core.wait(0.75)
     win.flip()
-    core.wait(2)
+    core.wait(3)
 
 device.recording_stop_and_save()
 device.close()
