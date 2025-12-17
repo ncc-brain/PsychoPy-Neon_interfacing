@@ -57,6 +57,7 @@ for i in range(N):
     win.flip()
     core.wait(3)
 
+core.wait(1)
 device.recording_stop_and_save()
 device.close()
 core.quit()
