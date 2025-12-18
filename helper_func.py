@@ -93,7 +93,7 @@ class MyExp:
         self.win = visual.Window(screen=-1, fullscr=True)
         self.win.mouseVisible = False
         self.win.winHandle.activate()
-    
+
     def win_flip_with_neon_event(self, event_name: str):
         """Flip the window and send a Neon event if applicable"""
         if self.use_neon and self.neon is not None:

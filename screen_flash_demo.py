@@ -3,9 +3,11 @@ import sys
 from time import time_ns
 from pupil_labs.realtime_api.simple import Device
 
+N = 10  # Number of trials
+
 # Get Neon address and port from user
 dlg = gui.Dlg()
-dlg.addField("Neon address", "10.55.60.77")
+dlg.addField("Neon address", "10.55.56.125")
 dlg.addField("Neon port", "8080")
 dlg_data = dlg.show()
 sys.exit() if not dlg.OK else None
@@ -20,7 +22,7 @@ except Exception as e:
     sys.exit()
 
 # Experiment parameters and PsychoPy objects
-N = 5  # Number of trials
+
 win = visual.Window(screen=-1, fullscr=True, units="height", color=[-1, -1, -1])
 win.mouseVisible = False
 square = visual.Rect(
