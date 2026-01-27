@@ -46,7 +46,7 @@ print(f"Clock median offset: {clock_offset_ns / 1e6} ms")
 
 def send_event(device, clock_offset_ns):
     device.send_event(
-        "Flash onset (callOnFlip)",
+        "Flash onset",
         event_timestamp_unix_ns=int(time_ns() - clock_offset_ns),
     )
 
