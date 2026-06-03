@@ -13,7 +13,7 @@ exp = Experiment(
     task="aruco",
     session="01",
     data_type="ieeg",
-    use_pupil_labs=True,
+    use_pupil_labs=False,
 )
 exp.win.mouseVisible = False
 exp.win.winHandle.activate()
@@ -40,7 +40,7 @@ exp.win.flip()
 exp.start_recording()
 core.wait(4)
 
-exp.draw_markers("5x5_250", 8)
+exp.draw_markers("36h11", 6)
 exp.log_event(win_flip=True, trial_type="draw ArUco markers")
 core.wait(3)
 
