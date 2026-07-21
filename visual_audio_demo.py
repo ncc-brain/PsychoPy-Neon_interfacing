@@ -1,8 +1,9 @@
 from psychopy import prefs
+
 prefs.validate()
-prefs.hardware['audioLib'] = ['ptb']
-prefs.hardware['audioDevice'] = ['Speaker/HP (Realtek High Definition Audio)']
-prefs.hardware['audioLatencyMode'] = 3
+prefs.hardware["audioLib"] = ["ptb"]
+prefs.hardware["audioDevice"] = ["Speaker/HP (Realtek High Definition Audio)"]
+prefs.hardware["audioLatencyMode"] = 3
 
 from psychopy import core, visual, event, gui, sound
 import sys
@@ -54,8 +55,8 @@ print(f"Clock median offset: {clock_offset_ns / 1e6} ms")
 for i in range(N):
     square.draw()
     now = ptb.GetSecs()
-    tone.play(when=now+0.1)
-    while ptb.GetSecs() < now+0.1:
+    tone.play(when=now + 0.1)
+    while ptb.GetSecs() < now + 0.1:
         pass
 
     win.flip()

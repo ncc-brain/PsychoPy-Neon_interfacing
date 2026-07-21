@@ -25,7 +25,12 @@ text_stim = visual.TextStim(
 )
 
 fix_cross = visual.ShapeStim(
-    exp.win, vertices="cross", fillColor="white", lineColor=None, size=FIX_SIZE, units="pix"
+    exp.win,
+    vertices="cross",
+    fillColor="white",
+    lineColor=None,
+    size=FIX_SIZE,
+    units="pix",
 )
 img = visual.ImageStim(exp.win, size=IMG_SIZE, units="pix")
 stimuli_dir = Path("stimuli")
@@ -52,7 +57,7 @@ for img_path in img_paths[:5]:
         win_flip=True,
         trial_type="fixation",
     )
-    core.wait(.5)
+    core.wait(0.5)
 
     img.draw()
     exp.log_event(
@@ -60,12 +65,12 @@ for img_path in img_paths[:5]:
         trial_type="image",
     )
     core.wait(IMG_DURATION)
-    
+
     exp.win.flip()
     core.wait(1)
-    
-    keys = event.getKeys(['escape'])
-    if 'escape' in keys:
+
+    keys = event.getKeys(["escape"])
+    if "escape" in keys:
         exp.end()
 
 exp.end()
