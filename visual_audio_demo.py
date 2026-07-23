@@ -52,8 +52,15 @@ estimate = device.estimate_time_offset().time_offset_ms.median
 clock_offset_ns = round(estimate * 1e6)
 print(f"Clock median offset: {clock_offset_ns / 1e6} ms")
 
+def neon_send_event(device, clock_offset_ns):
+    device.send_event(
+        "Flash onset",
+        event_timestamp_unix_ns=int(time_ns() - clock_offset_ns),
+    )
+
 for i in range(N):
     square.draw()
+    win.callOnFlip(neon_send_event, device, clock_offset_ns)
     now = ptb.GetSecs()
     tone.play(when=now + 0.1)
     while ptb.GetSecs() < now + 0.1:
